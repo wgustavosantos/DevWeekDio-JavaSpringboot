@@ -10,20 +10,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dio_class.devweek.controller.service.RegiaoService;
 import com.dio_class.devweek.entities.Regiao;
-import com.dio_class.devweek.repository.RegiaoRepository;
 
 @RestController
 @RequestMapping("/api")
 public class RegiaoController {
 	
+	
 	@Autowired
-    private RegiaoRepository repository;
+	private RegiaoService service;
 
     @GetMapping("/regioes")
     public ResponseEntity<?> findAllRegioes(){
         try {
-            List<Regiao> allRegioes = repository.findAll();
+            List<Regiao> allRegioes = service.findAll();
             if (allRegioes.isEmpty())
                 System.out.println("Vazia");
             return new ResponseEntity<>(allRegioes, HttpStatus.OK);
@@ -34,7 +35,7 @@ public class RegiaoController {
 
     @GetMapping("regioes/{id}")
     public ResponseEntity<Regiao> findRegioesById(@PathVariable Long id){
-        Optional<Regiao> regiaoOptional = repository.findById(id);
+        Optional<Regiao> regiaoOptional = service.findById(id);
         if (regiaoOptional.isPresent()){
             Regiao regiaoUnid = regiaoOptional.get();
             return new ResponseEntity<>(regiaoUnid, HttpStatus.OK);
