@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dio_class.devweek.controller.service.RegiaoService;
 import com.dio_class.devweek.entities.Regiao;
+import com.dio_class.devweek.service.RegiaoService;
 
 @RestController
 @RequestMapping("/api")

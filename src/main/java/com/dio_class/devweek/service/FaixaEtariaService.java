@@ -1,4 +1,4 @@
-package com.dio_class.devweek.controller.service;
+package com.dio_class.devweek.service;
 
 import java.util.List;
 import java.util.Optional;

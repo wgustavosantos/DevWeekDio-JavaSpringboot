@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dio_class.devweek.controller.service.IncidenciaService;
 import com.dio_class.devweek.entities.Incidencia;
+import com.dio_class.devweek.service.IncidenciaService;
 
 @RestController
 @RequestMapping("/api")

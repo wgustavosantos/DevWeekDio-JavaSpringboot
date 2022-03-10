@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dio_class.devweek.controller.service.FaixaEtariaService;
 import com.dio_class.devweek.entities.FaixaEtaria;
+import com.dio_class.devweek.service.FaixaEtariaService;
 
 @RestController
 @RequestMapping("/api")
