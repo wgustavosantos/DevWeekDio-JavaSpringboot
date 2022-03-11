@@ -1,5 +1,6 @@
 package com.dio_class.devweek.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.dio_class.devweek.entities.FaixaEtaria;
 import com.dio_class.devweek.service.FaixaEtariaService;
@@ -30,7 +32,7 @@ public class FaixaEtariaController {
 	}
 
 	@GetMapping("/faixaetaria/{id}")
-	public ResponseEntity<FaixaEtaria> findByIdFaixaEtaria(@PathVariable Long id) {
+	public ResponseEntity<FaixaEtaria> findById(@PathVariable Long id) {
 		
 			
 			FaixaEtaria faixaEtaria = service.findByIdFaixaEtaria(id);
@@ -39,8 +41,17 @@ public class FaixaEtariaController {
 	}
 
 	@PostMapping("/faixaetaria/novo")
-	public FaixaEtaria newFaixaEtaria(@RequestBody FaixaEtaria newFaixa) {
-		return service.save(newFaixa);
+	public ResponseEntity<Void> newFaixaEtaria(@RequestBody FaixaEtaria newFaixa) {
+		
+		FaixaEtaria faixaEtaria = service.save(newFaixa);
+		
+		URI uri = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.replacePath("/api/faixaetaria/{id}")
+				.buildAndExpand(faixaEtaria.getId())
+				.toUri();
+		
+		return ResponseEntity.created(uri).build();
 	}
 
 	@DeleteMapping("/faixaetaria/remover/{id}")

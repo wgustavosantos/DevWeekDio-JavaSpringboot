@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.dio_class.devweek.entities.FaixaEtaria;
 import com.dio_class.devweek.repository.FaixaEtariaRepository;
+import com.dio_class.devweek.service.exceptions.ObjectNotFoundException;
 
 @Service
 public class FaixaEtariaService {
@@ -17,7 +18,8 @@ public class FaixaEtariaService {
 	
 	public FaixaEtaria findByIdFaixaEtaria(Long id) {
 		Optional<FaixaEtaria> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(
+				() -> new ObjectNotFoundException("Faixa Etária não encontrada! Id: " + id + ". Tipo: " + FaixaEtaria.class));
 	}
 
 	public List<FaixaEtaria> findAll() {
@@ -26,10 +28,14 @@ public class FaixaEtariaService {
 
 	public FaixaEtaria save(FaixaEtaria newFaixa) {
 		
+		newFaixa.setId(null); // Certificando que o id está nullo
+		
 		return repository.save(newFaixa);
 	}
 
 	public void deleteById(long id) {
+		
+		findByIdFaixaEtaria(id);
 		
 		repository.deleteById(id);
 		

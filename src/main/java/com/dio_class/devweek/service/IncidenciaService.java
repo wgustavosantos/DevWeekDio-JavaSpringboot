@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.dio_class.devweek.entities.Incidencia;
 import com.dio_class.devweek.repository.IncidenciaRepository;
+import com.dio_class.devweek.service.exceptions.ObjectNotFoundException;
 
 @Service
 public class IncidenciaService {
@@ -17,20 +18,21 @@ public class IncidenciaService {
 	
 	public List<Incidencia> findAll (){
 		
-		List<Incidencia> listaIncidencia = repository.findAll();
-		
-		if (listaIncidencia.isEmpty())
-            return null;
-		
-		return listaIncidencia;
+		return repository.findAll();
 	}
 
-	public Optional<Incidencia> findById(Long id) {
-		return repository.findById(id);
+	public Incidencia findById(Long id) {
+		
+		Optional<Incidencia> obj = repository.findById(id);
+		return obj.orElseThrow(
+				() -> new ObjectNotFoundException("Faixa Etária não encontrada! Id: " + id + ". Tipo: " + Incidencia.class));
+		
 	}
 
 	public Incidencia save(Incidencia newIncidencia) {
-		// TODO Auto-generated method stub
+		
+		newIncidencia.setId(null); // Certificando que o id está nullo
+
 		return repository.save(newIncidencia);
 	}
 	

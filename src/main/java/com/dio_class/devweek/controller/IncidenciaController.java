@@ -1,16 +1,17 @@
 package com.dio_class.devweek.controller;
 
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.dio_class.devweek.entities.Incidencia;
 import com.dio_class.devweek.service.IncidenciaService;
@@ -25,32 +26,30 @@ public class IncidenciaController {
     @GetMapping("/incidencia")
     public ResponseEntity<List<Incidencia>> findIncidencia(){
     	
-    	
         List<Incidencia> listaOcorrencia = service.findAll();
         
-        if (listaOcorrencia == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        
-        return new ResponseEntity<>(listaOcorrencia, HttpStatus.OK);
+        return ResponseEntity.ok().body(listaOcorrencia);
     }
 
     @GetMapping("/incidencia/{id}")
     public ResponseEntity<Incidencia> findIncidenciaById(@PathVariable Long id){
     	
-        Optional<Incidencia> incidenciaOptional = service.findById(id);
-        
-        if (incidenciaOptional.isEmpty())
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        
-        Incidencia incidenciaUnid = incidenciaOptional.get();
-        
-        return new ResponseEntity<>(incidenciaUnid, HttpStatus.NOT_FOUND);
+        Incidencia obj  = service.findById(id);
+        return ResponseEntity.ok().body(obj);
     }
     
-    public Incidencia newIncidencia (@RequestBody Incidencia newIncidencia) {
+    @PostMapping("/incidencia/novo")
+    public ResponseEntity<Void> newIncidencia (@RequestBody Incidencia newIncidencia) {
     	
-    	return service.save(newIncidencia);
+    	Incidencia incidencia = service.save(newIncidencia);
+    	
+    	URI uri = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.replacePath("/api/incidencia/{id}")
+				.buildAndExpand(incidencia.getId())
+				.toUri();
+    	
+    	return ResponseEntity.created(uri).build();
     }
-
 
 }
