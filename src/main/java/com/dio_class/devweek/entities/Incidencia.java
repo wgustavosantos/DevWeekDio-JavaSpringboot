@@ -9,7 +9,7 @@ import javax.persistence.Id;
 public class Incidencia {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Integer Regiao_id;
 	private Integer Mes;
